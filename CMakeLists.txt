@@ -32,6 +32,8 @@ set(TS_FILES QT_Fractals_en_US.ts)
 set(PROJECT_SOURCES
         main.cpp
         qml.qrc
+        src/Shaders/fractal.frag
+        src/Shaders/fractal.vert
         ${TS_FILES}
 )
 
