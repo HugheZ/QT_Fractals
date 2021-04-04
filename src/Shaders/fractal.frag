@@ -29,12 +29,13 @@
  *                          PARAMETERS                         *
  ***************************************************************/
 
-uniform sampler2D qt_Texture0;
-varying vec4 qt_TexCoord0;
-uniform vec3 LIGHT_DIRECTION = (-0.285714, 0.428571, -0.857143); //sent light direction, default to normal of (-2,3,-6), light going left, back, and sharply down
 uniform int MAX_STEPS = 10; //sent step maximum, scales physical precision, default to 10
 uniform float MIN_DIST = 0.2; //sent minimum distance for marching, scales definition, default to .02
 uniform bool ITER_COLOR = true; //whether to use color by iteration, else uses orbit coloring, default to iteration coloring
+uniform vec3 LIGHT_COLOR_AMBIENT = (1.0,1.0,1.0); //ambient light color, used in lighting, default to white
+uniform float LIGHT_STRENGTH_AMBIENT = 1; //ambient light strength, used in lighting, default to full
+uniform vec3 LIGHT_COLOR_DIFFUSE = (1.0,1.0,1.0); //diffuse light color, used in lighting, default to white
+uniform vec3 LIGHT_DIRECTION_DIFFUSE = (0.285714, -0.428571, 0.857143); //sent light direction, pointing TO the light source, default to normal of (2,-3,6), light going left, back, and sharply down towards fractal
 
 /***************************************************************
  *                           STRUCTS                           *
@@ -118,11 +119,40 @@ vec3 getNormal(vec3 pos, vec3 xDir, vec3 yDir, vec3 zDir){
 }
 
 
+/**
+  * Calculates phong lighting for the point on the fractal.
+  * Thank you, Dr. Dellinger for the notes on this. Glad I saved the powerpoint slides from that lecture.
+  *
+  *
+  * Lambert's cosine law (for ambient): Ia = CaMa, where Ia is intensity of reflected light, Ca is ambient brightness, and Ma is ambient reflectance
+  * Diffuse: Id = Cd Md COS(theta), where Id is intensity of diffuse light, Cd is incomming diffuse light intensity, Md is material reflectance, and theta is the angle between the light and surface normal
+  *          COS(theta) can be simplified to unit(normal)*unit(Ld), where Ld is the vector TOWARDS the diffuse light source.
+  * Combined: simply add together
+  *
+  * inputs:
+  * color: color of the particular point
+  * normal: the normal vector from the given point, assumes unit
+  * ambientColor: the ambient light to apply to the point
+  * ambientStrength: strength of ambient light to apply
+  * diffuseColor: color of diffuse light to apply
+  * diffuseLightDir: direction pointing TO diffuse light source
+  */
+vec3 calcLight(vec3 color, vec3 normal, vec3 ambientColor, float ambientStrength, vec3 diffuseColor, vec3 diffuseLightDir){
+    vec3 amb = ambientColor*ambientStrength;
+    //max the diffuse light to avoid backlighting angles that are occluded
+    vec3 diff = diffuseColor*max(dot(normal, diffuseLightDir),0.0);
+    return color * (amb + diff);
+}
+
+
 /***************************************************************
  *                          RENDERING                          *
  ***************************************************************/
 
 void main(void)
 {
-    gl_FragColor = texture2D(qt_Texture0, qt_TexCoord0.st);
+    //TODO: actually ray march and get the magic done
+    vec3 col = (1.0,1.0,1.0);
+    vec3 norm = (0,0,0);
+    col += calcLight(col, norm, LIGHT_COLOR_AMBIENT, LIGHT_STRENGTH_AMBIENT, LIGHT_COLOR_DIFFUSE, LIGHT_DIRECTION_DIFFUSE);
 }
