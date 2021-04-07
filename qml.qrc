@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>src/QML/main.qml</file>
-        <file>src/QML/3D_Output.qml</file>
+        <file>src/QML/Fractal_Output.qml</file>
         <file>src/QML/qtquickcontrols2.conf</file>
     </qresource>
 </RCC>

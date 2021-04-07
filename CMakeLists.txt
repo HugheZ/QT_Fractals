@@ -34,6 +34,8 @@ set(PROJECT_SOURCES
         qml.qrc
         src/Shaders/fractal.frag
         src/Shaders/fractal.vert
+        src/Cpp/3d_Viewport.h
+        src/Cpp/3d_Viewport.cpp
         ${TS_FILES}
 )
 

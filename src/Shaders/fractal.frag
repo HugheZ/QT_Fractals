@@ -29,6 +29,8 @@
  *                          PARAMETERS                         *
  ***************************************************************/
 
+uniform float SCALE = 10.0; //how much to scale each fractal
+uniform int ITERATIONS = 10; //number of fractal iterations to perform
 uniform int MAX_STEPS = 10; //sent step maximum, scales physical precision, default to 10
 uniform float MIN_DIST = 0.2; //sent minimum distance for marching, scales definition, default to .02
 uniform bool ITER_COLOR = true; //whether to use color by iteration, else uses orbit coloring, default to iteration coloring
@@ -61,13 +63,33 @@ struct march_result {
  ***************************************************************/
 
 /**
-  * Estimates the distance to the fractal
+  * Estimates the distance to the fractal. We can combine multiple by taking the minimum estimator of every rendered object. Neat.
+  * To regenerate an object, you can modulo its distance estimator across a plane. For example:
+  *
+  * z.xy = mod((z.xy),1.0)-vec3(0.5); // instance on xy-plane
+  * return length(z)-0.3;             // sphere DE
   *
   * inputs:
   * pos: current ray position
   */
 float DE(vec3 pos){
-    return 0.0;
+    vec3 a1 = vec3(1,1,1);
+    vec3 a2 = vec3(-1,-1,1);
+    vec3 a3 = vec3(1,-1,-1);
+    vec3 a4 = vec3(-1,1,-1);
+    vec3 c;
+    int n = 0;
+    float dist, d;
+    while (n < ITERATIONS) {
+        c = a1; dist = length(pos-a1);
+        d = length(pos-a2); if (d < dist) { c = a2; dist=d; }
+        d = length(pos-a3); if (d < dist) { c = a3; dist=d; }
+        d = length(pos-a4); if (d < dist) { c = a4; dist=d; }
+        pos = SCALE*pos-c*(SCALE-1.0);
+        n++;
+    }
+
+    return length(pos) * pow(SCALE, float(-n));
 }
 
 
