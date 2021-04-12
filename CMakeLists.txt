@@ -24,7 +24,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #    endif()
 #endif()
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick LinguistTools REQUIRED)
+find_package(QT NAMES Qt6 COMPONENTS 3dcore 3drender 3dinput 3dlogic 3dextras qml quick 3dquick 3danimation REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick LinguistTools REQUIRED)
 
 set(TS_FILES QT_Fractals_en_US.ts)
@@ -34,8 +34,6 @@ set(PROJECT_SOURCES
         qml.qrc
         src/Shaders/fractal.frag
         src/Shaders/fractal.vert
-        src/Cpp/3d_Viewport.h
-        src/Cpp/3d_Viewport.cpp
         ${TS_FILES}
 )
 

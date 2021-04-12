@@ -4,12 +4,7 @@
 <context>
     <name>Fractal_Output</name>
     <message>
-        <location filename="src/QML/Fractal_Output.qml" line="22"/>
-        <source>Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/QML/Fractal_Output.qml" line="54"/>
+        <location filename="src/QML/Fractal_Output.qml" line="26"/>
         <source>No Fractal Selected</source>
         <translation type="unfinished"></translation>
     </message>
