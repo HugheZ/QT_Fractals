@@ -1,15 +1,65 @@
 import QtQuick 2.0
-import QtQuick3D
+import QtQuick3D 1.15
 
 Item {
-    id: fractal_component
+    id: fractalViewer
 
-    View3D{
-        id: view_three_d
+    Node{
+        id: rootScene
+
+        //Model, for testing purposes
+        Node{
+            id: models
+            Model {
+                source: "#Cube"
+                position: Qt.vector3d(0,0,0)
+                scale: Qt.vector3d(3,3,3)
+                materials: [
+                    //FractalMaterial{}
+                    PrincipledMaterial{
+                        baseColor: "#41cd52"
+                        metalness: 0.0
+                        roughness: 0.1
+                        opacity: 1.0
+                    }
+
+                ]
+            }
+        }
+
+        //Lights
+        Node{
+            id: lights
+            DirectionalLight{
+                ambientColor: Qt.rgba(1.0,1.0,1.0,1.0)
+                brightness: 1.0
+                eulerRotation.x: -25
+            }
+        }
+
+        //Camera
+        Node{
+            id: cams
+            PerspectiveCamera{
+                id: camPerspective
+                z: 600
+                x: 300
+                y: 200
+                eulerRotation: Qt.vector3d(-20.0, 20.0, 0.0)
+            }
+        }
+
+    }
+
+    View3D {
+        id: viewThreeD
+        anchors.fill: parent
+        importScene: rootScene
+        camera: camPerspective
     }
 
     Rectangle {
-        id: disabledblocker
+        id: disabledBlocker
         x: 220
         y: 140
         width: 200
@@ -19,7 +69,7 @@ Item {
         anchors.fill: parent
 
         Text {
-            id: disabledprompt
+            id: disabledPrompt
             font.pixelSize: 12
             anchors.fill: parent
             color: "#6b5d5d"
@@ -33,22 +83,22 @@ Item {
     states: [
         State {
             name: "DISABLED"
-            when: !fractal_component.enabled
+            when: !fractalViewer.enabled
 
             PropertyChanges {
-                target: disabledblocker
+                target: disabledBlocker
                 visible: true
             }
 
             PropertyChanges {
-                target: view_three_d
+                target: viewThreeD
                 visible: false
             }
 
         },
         State {
             name: "ENABLED"
-            when: fractal_component.enabled
+            when: fractalView.enabled
 
             PropertyChanges {
                 target: disabledblocker
@@ -56,7 +106,7 @@ Item {
             }
 
             PropertyChanges {
-                target: view_three_d
+                target: viewThreeD
                 visible: true
             }
 

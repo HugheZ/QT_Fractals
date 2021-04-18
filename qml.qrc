@@ -4,10 +4,8 @@
         <file>src/QML/Fractal_Output.qml</file>
         <file>src/QML/qtquickcontrols2.conf</file>
         <file>src/QML/MainCamera.qml</file>
-        <file>src/QML/Fractal.qml</file>
-    </qresource>
-    <qresource prefix="/src/Shaders">
         <file>src/Shaders/fractal.frag</file>
         <file>src/Shaders/fractal.vert</file>
+        <file>src/QML/FractalMaterial.qml</file>
     </qresource>
 </RCC>

@@ -42,7 +42,7 @@ ApplicationWindow {
         anchors.right: parent.right
         anchors.top: mainMenu.bottom
         anchors.bottom: parent.bottom
-        enabled: false
+        enabled: true
     }
 
 
