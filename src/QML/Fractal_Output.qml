@@ -98,10 +98,10 @@ Item {
         },
         State {
             name: "ENABLED"
-            when: fractalView.enabled
+            when: fractalViewer.enabled
 
             PropertyChanges {
-                target: disabledblocker
+                target: disabledBlocker
                 visible: false
             }
 
