@@ -8,10 +8,12 @@ ApplicationWindow {
     height: 480
     visible: true
     title: "QT Fractals"
+    minimumHeight: 300
+    minimumWidth: 600
 
     MenuBar {
         id: mainMenu
-        height: 40
+        height: 30
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
@@ -37,17 +39,30 @@ ApplicationWindow {
         }
     }
 
-    Fractal_Output {
-        anchors.left: parent.left
+    Rectangle{
+        id:controls
+        color:"#AAAAAA"
+
+        anchors.top: parent.top
         anchors.right: parent.right
-        anchors.top: mainMenu.bottom
         anchors.bottom: parent.bottom
-        enabled: true
+        width: scaler(.2, 200)
     }
 
+    //container div
+    Fractal_Output {
+        id:fractalOut
 
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        width: scaler(.8, 400)
+    }
 
-
+    function scaler(per, min){
+      var w = mainWindow.width * per;
+      return w < min ? min : w;
+    }
 
 
 

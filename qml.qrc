@@ -7,5 +7,6 @@
         <file>src/Shaders/fractal.frag</file>
         <file>src/Shaders/fractal.vert</file>
         <file>src/QML/FractalMaterial.qml</file>
+        <file>src/QML/FractalScene.qml</file>
     </qresource>
 </RCC>
